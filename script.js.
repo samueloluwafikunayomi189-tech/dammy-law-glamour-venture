@@ -1,0 +1,184 @@
+
+/* =====================================
+   DAMMY LAW GLAMOUR VENTURE
+   Website Functionality
+===================================== */
+
+// YOUR BUSINESS WHATSAPP NUMBER
+const WHATSAPP_NUMBER = "2349064238417";
+
+// SHOPPING CART
+let cart = JSON.parse(localStorage.getItem("dammyLawCart")) || [];
+
+// MOBILE NAVIGATION
+const menuToggle = document.getElementById("menuToggle");
+const navigation = document.getElementById("navigation");
+
+if (menuToggle && navigation) {
+  menuToggle.addEventListener("click", () => {
+    navigation.classList.toggle("active");
+  });
+
+  navigation.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      navigation.classList.remove("active");
+    });
+  });
+}
+
+// SAVE CART
+function saveCart() {
+  localStorage.setItem("dammyLawCart", JSON.stringify(cart));
+}
+
+// ADD PRODUCT TO CART
+function addToCart(name, price) {
+  price = Number(price);
+
+  if (!name || !Number.isFinite(price) || price <= 0) {
+    alert("This product has invalid information.");
+    return;
+  }
+
+  const existingProduct = cart.find(item => item.name === name);
+
+  if (existingProduct) {
+    existingProduct.quantity += 1;
+  } else {
+    cart.push({
+      name: name,
+      price: price,
+      quantity: 1
+    });
+  }
+
+  saveCart();
+  displayCart();
+
+  alert(name + " added to your shopping cart!");
+}
+
+// PRODUCT BUTTONS
+document.addEventListener("click", function(event) {
+  const button = event.target.closest(".add-to-cart");
+
+  if (button) {
+    addToCart(
+      button.dataset.name,
+      button.dataset.price
+    );
+  }
+});
+
+// DISPLAY CART
+function displayCart() {
+  const cartItems = document.getElementById("cart-items");
+  const cartCount = document.getElementById("cart-count");
+  const cartTotal = document.getElementById("cart-total");
+
+  let total = 0;
+  let count = 0;
+
+  cart.forEach(item => {
+    total += item.price * item.quantity;
+    count += item.quantity;
+  });
+
+  if (cartCount) {
+    cartCount.textContent = count;
+  }
+
+  if (cartTotal) {
+    cartTotal.textContent = total.toLocaleString("en-NG");
+  }
+
+  if (!cartItems) return;
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = "<p>Your shopping cart is empty.</p>";
+    return;
+  }
+
+  cartItems.innerHTML = cart.map((item, index) => `
+    <div class="cart-item">
+      <div>
+        <h4>${escapeHTML(item.name)}</h4>
+        <p>₦${item.price.toLocaleString("en-NG")}</p>
+        <p>Quantity: ${item.quantity}</p>
+      </div>
+
+      <button class="remove-item" data-index="${index}">
+        Remove
+      </button>
+    </div>
+  `).join("");
+}
+
+// SAFELY DISPLAY PRODUCT NAMES
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+// REMOVE PRODUCT
+document.addEventListener("click", function(event) {
+  const button = event.target.closest(".remove-item");
+
+  if (button) {
+    const index = Number(button.dataset.index);
+
+    if (Number.isInteger(index) && cart[index]) {
+      cart.splice(index, 1);
+      saveCart();
+      displayCart();
+    }
+  }
+});
+
+// WHATSAPP CHECKOUT
+const checkoutButton = document.getElementById("checkout-btn");
+
+if (checkoutButton) {
+  checkoutButton.addEventListener("click", function() {
+
+    if (cart.length === 0) {
+      alert("Your shopping cart is empty!");
+      return;
+    }
+
+    let message = "Hello Dammy Law Glamour Venture!\n";
+    message += "I would like to place an order:\n\n";
+
+    let total = 0;
+
+    cart.forEach(item => {
+      const subtotal = item.price * item.quantity;
+      total += subtotal;
+
+      message += `${item.name}\n`;
+      message += `Quantity: ${item.quantity}\n`;
+      message += `Price: NGN ${subtotal.toLocaleString("en-NG")}\n\n`;
+    });
+
+    message += "TOTAL: NGN " + total.toLocaleString("en-NG");
+    message += "\n\nPlease assist me with my order.";
+
+    const whatsappURL =
+      "https://wa.me/" + WHATSAPP_NUMBER +
+      "?text=" + encodeURIComponent(message);
+
+    window.open(whatsappURL, "_blank");
+  });
+}
+
+// INITIALIZE CART
+displayCart();
+
+console.log("Dammy Law Glamour Venture is ready!");
+
+      
