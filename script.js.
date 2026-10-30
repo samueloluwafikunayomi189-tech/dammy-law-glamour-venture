@@ -1,184 +1,318 @@
 
-/* =====================================
-   DAMMY LAW GLAMOUR VENTURE
-   Website Functionality
-===================================== */
+/* DAMMY LAW GLAMOUR VENTURE */
 
-// YOUR BUSINESS WHATSAPP NUMBER
-const WHATSAPP_NUMBER = "+234 812 769 8469";
+const WHATSAPP_NUMBER = "234XXXXXXXXXX";
+// Replace with your WhatsApp number, including country code.
 
-// SHOPPING CART
-let cart = JSON.parse(localStorage.getItem("dammyLawCart")) || [];
+const products = [
+  {
+    id: 1,
+    name: "Elegant Evening Gown",
+    price: 45000,
+    category: "ready-made",
+    tags: ["women", "occasion"],
+    description: "An elegant look for special occasions.",
+    image: "images/gown.jpg"
+  },
+  {
+    id: 2,
+    name: "Luxury Custom Dress",
+    price: 65000,
+    category: "custom-made",
+    tags: ["women", "occasion"],
+    description: "A beautiful design made to your measurements.",
+    image: "images/custom-dress.jpg"
+  },
+  {
+    id: 3,
+    name: "Classic Men's Senator",
+    price: 55000,
+    category: "men",
+    tags: ["traditional", "ready-made"],
+    description: "A refined traditional outfit for men.",
+    image: "images/senator.jpg"
+  },
+  {
+    id: 4,
+    name: "Women's Casual Set",
+    price: 30000,
+    category: "casual",
+    tags: ["women", "ready-made"],
+    description: "Comfortable fashion for everyday style.",
+    image: "images/casual-set.jpg"
+  },
+  {
+    id: 5,
+    name: "Premium Office Outfit",
+    price: 40000,
+    category: "office",
+    tags: ["women", "ready-made"],
+    description: "A polished look for professional occasions.",
+    image: "images/office-wear.jpg"
+  },
+  {
+    id: 6,
+    name: "Men's Luxury Kaftan",
+    price: 50000,
+    category: "men",
+    tags: ["traditional", "ready-made"],
+    description: "Modern traditional menswear.",
+    image: "images/kaftan.jpg"
+  },
+  {
+    id: 7,
+    name: "Children's Celebration Outfit",
+    price: 25000,
+    category: "children",
+    tags: ["occasion", "ready-made"],
+    description: "A stylish outfit for little ones.",
+    image: "images/children.jpg"
+  },
+  {
+    id: 8,
+    name: "Luxury Fashion Bag",
+    price: 35000,
+    category: "accessories",
+    tags: [],
+    description: "An elegant accessory to complete your look.",
+    image: "images/bag.jpg"
+  },
+  {
+    id: 9,
+    name: "Traditional Women's Outfit",
+    price: 48000,
+    category: "traditional",
+    tags: ["women", "ready-made"],
+    description: "Beautiful traditional fashion.",
+    image: "images/traditional.jpg"
+  },
+  {
+    id: 10,
+    name: "Custom Men's Outfit",
+    price: 75000,
+    category: "custom-made",
+    tags: ["men", "traditional"],
+    description: "Made to your preferred style and measurements.",
+    image: "images/custom-men.jpg"
+  },
+  {
+    id: 11,
+    name: "Party Mini Dress",
+    price: 38000,
+    category: "occasion",
+    tags: ["women", "ready-made"],
+    description: "A standout look for your next celebration.",
+    image: "images/party-dress.jpg"
+  },
+  {
+    id: 12,
+    name: "Men's Smart Shirt",
+    price: 22000,
+    category: "casual",
+    tags: ["men", "ready-made"],
+    description: "A clean and stylish everyday essential.",
+    image: "images/mens-shirt.jpg"
+  }
+];
 
-// MOBILE NAVIGATION
-const menuToggle = document.getElementById("menuToggle");
-const navigation = document.getElementById("navigation");
+let selectedCategory = "all";
+let cart = [];
 
-if (menuToggle && navigation) {
-  menuToggle.addEventListener("click", () => {
-    navigation.classList.toggle("active");
-  });
+const productsGrid = document.getElementById("products-grid");
+const searchInput = document.getElementById("search-input");
+const sortSelect = document.getElementById("sort-select");
 
-  navigation.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", () => {
-      navigation.classList.remove("active");
-    });
-  });
+function money(amount) {
+  return "₦" + amount.toLocaleString("en-NG");
 }
 
-// SAVE CART
-function saveCart() {
-  localStorage.setItem("dammyLawCart", JSON.stringify(cart));
+function renderProducts() {
+  const search = searchInput.value.toLowerCase().trim();
+
+  let filtered = products.filter(product => {
+    const categoryMatch =
+      selectedCategory === "all" ||
+      product.category === selectedCategory ||
+      product.tags.includes(selectedCategory);
+
+    const searchMatch =
+      product.name.toLowerCase().includes(search) ||
+      product.description.toLowerCase().includes(search);
+
+    return categoryMatch && searchMatch;
+  });
+
+  if (sortSelect.value === "low") {
+    filtered.sort((a, b) => a.price - b.price);
+  }
+
+  if (sortSelect.value === "high") {
+    filtered.sort((a, b) => b.price - a.price);
+  }
+
+  if (sortSelect.value === "name") {
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  productsGrid.innerHTML = filtered.map(product => `
+    <article class="product-card">
+      <img
+        class="product-image"
+        src="${product.image}"
+        alt="${product.name}"
+        loading="lazy"
+        onerror="this.onerror=null;this.src='https://placehold.co/600x800/f0ebe2/333333?text=Add+Product+Image'"
+      >
+
+      <div class="product-info">
+        <span class="product-category">${product.category.replace("-", " ")}</span>
+        <h3>${product.name}</h3>
+        <p class="product-description">${product.description}</p>
+        <p class="product-price">${money(product.price)}</p>
+        <button class="add-button" onclick="addToCart(${product.id})">
+          ADD TO BAG
+        </button>
+      </div>
+    </article>
+  `).join("");
+
+  document.getElementById("empty-message").hidden = filtered.length !== 0;
 }
 
-// ADD PRODUCT TO CART
-function addToCart(name, price) {
-  price = Number(price);
+document.querySelectorAll(".category").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelector(".category.active").classList.remove("active");
+    button.classList.add("active");
+    selectedCategory = button.dataset.category;
+    renderProducts();
+  });
+});
 
-  if (!name || !Number.isFinite(price) || price <= 0) {
-    alert("This product has invalid information.");
+searchInput.addEventListener("input", renderProducts);
+sortSelect.addEventListener("change", renderProducts);
+
+function addToCart(id) {
+  const product = products.find(item => item.id === id);
+  const existing = cart.find(item => item.id === id);
+
+  if (existing) {
+    existing.quantity++;
+  } else {
+    cart.push({ ...product, quantity: 1 });
+  }
+
+  renderCart();
+  openCart();
+}
+
+function changeQuantity(id, amount) {
+  const item = cart.find(product => product.id === id);
+  if (!item) return;
+
+  item.quantity += amount;
+
+  if (item.quantity <= 0) {
+    cart = cart.filter(product => product.id !== id);
+  }
+
+  renderCart();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(item => item.id !== id);
+  renderCart();
+}
+
+function renderCart() {
+  const container = document.getElementById("cart-items");
+
+  container.innerHTML = cart.length
+    ? cart.map(item => `
+      <div class="cart-item">
+        <div>
+          <h4>${item.name}</h4>
+          <p>${money(item.price)} each</p>
+          <div class="quantity-controls">
+            <button onclick="changeQuantity(${item.id}, -1)">−</button>
+            <span>${item.quantity}</span>
+            <button onclick="changeQuantity(${item.id}, 1)">+</button>
+            <button class="remove-button" onclick="removeFromCart(${item.id})">Remove</button>
+          </div>
+        </div>
+        <strong>${money(item.price * item.quantity)}</strong>
+      </div>
+    `).join("")
+    : "<p style='padding:25px 0;color:#777'>Your shopping bag is empty.</p>";
+
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  document.getElementById("cart-count").textContent = count;
+  document.getElementById("cart-total").textContent = money(total);
+}
+
+function openCart() {
+  document.getElementById("cart-panel").classList.add("open");
+  document.getElementById("cart-overlay").classList.add("open");
+}
+
+function closeCart() {
+  document.getElementById("cart-panel").classList.remove("open");
+  document.getElementById("cart-overlay").classList.remove("open");
+}
+
+document.getElementById("cart-toggle").addEventListener("click", openCart);
+document.getElementById("cart-close").addEventListener("click", closeCart);
+document.getElementById("cart-overlay").addEventListener("click", closeCart);
+
+document.getElementById("checkout-button").addEventListener("click", () => {
+  if (!cart.length) {
+    alert("Your shopping bag is empty.");
     return;
   }
 
-  const existingProduct = cart.find(item => item.name === name);
-
-  if (existingProduct) {
-    existingProduct.quantity += 1;
-  } else {
-    cart.push({
-      name: name,
-      price: price,
-      quantity: 1
-    });
+  if (!/^234\d{10}$/.test(WHATSAPP_NUMBER)) {
+    alert("Please configure your correct WhatsApp number in script.js first.");
+    return;
   }
 
-  saveCart();
-  displayCart();
-
-  alert(name + " added to your shopping cart!");
-}
-
-// PRODUCT BUTTONS
-document.addEventListener("click", function(event) {
-  const button = event.target.closest(".add-to-cart");
-
-  if (button) {
-    addToCart(
-      button.dataset.name,
-      button.dataset.price
-    );
-  }
-});
-
-// DISPLAY CART
-function displayCart() {
-  const cartItems = document.getElementById("cart-items");
-  const cartCount = document.getElementById("cart-count");
-  const cartTotal = document.getElementById("cart-total");
-
-  let total = 0;
-  let count = 0;
+  let message = "Hello Dammy Law Glamour Venture! I want to place an order:\n\n";
 
   cart.forEach(item => {
-    total += item.price * item.quantity;
-    count += item.quantity;
+    message += `${item.name} x ${item.quantity} = ${money(item.price * item.quantity)}\n`;
   });
 
-  if (cartCount) {
-    cartCount.textContent = count;
-  }
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  message += `\nTotal: ${money(total)}\n\nPlease assist me with my order.`;
 
-  if (cartTotal) {
-    cartTotal.textContent = total.toLocaleString("en-NG");
-  }
+  window.open(
+    "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message),
+    "_blank"
+  );
+});
 
-  if (!cartItems) return;
+document.getElementById("contact-whatsapp").addEventListener("click", event => {
+  event.preventDefault();
 
-  if (cart.length === 0) {
-    cartItems.innerHTML = "<p>Your shopping cart is empty.</p>";
+  if (!/^234\d{10}$/.test(WHATSAPP_NUMBER)) {
+    alert("Please configure your WhatsApp number in script.js first.");
     return;
   }
 
-  cartItems.innerHTML = cart.map((item, index) => `
-    <div class="cart-item">
-      <div>
-        <h4>${escapeHTML(item.name)}</h4>
-        <p>₦${item.price.toLocaleString("en-NG")}</p>
-        <p>Quantity: ${item.quantity}</p>
-      </div>
-
-      <button class="remove-item" data-index="${index}">
-        Remove
-      </button>
-    </div>
-  `).join("");
-}
-
-// SAFELY DISPLAY PRODUCT NAMES
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
-}
-
-// REMOVE PRODUCT
-document.addEventListener("click", function(event) {
-  const button = event.target.closest(".remove-item");
-
-  if (button) {
-    const index = Number(button.dataset.index);
-
-    if (Number.isInteger(index) && cart[index]) {
-      cart.splice(index, 1);
-      saveCart();
-      displayCart();
-    }
-  }
+  window.open("https://wa.me/" + WHATSAPP_NUMBER, "_blank");
 });
 
-// WHATSAPP CHECKOUT
-const checkoutButton = document.getElementById("checkout-btn");
+document.getElementById("menu-toggle").addEventListener("click", () => {
+  document.getElementById("nav").classList.toggle("open");
+});
 
-if (checkoutButton) {
-  checkoutButton.addEventListener("click", function() {
-
-    if (cart.length === 0) {
-      alert("Your shopping cart is empty!");
-      return;
-    }
-
-    let message = "Hello Dammy Law Glamour Venture!\n";
-    message += "I would like to place an order:\n\n";
-
-    let total = 0;
-
-    cart.forEach(item => {
-      const subtotal = item.price * item.quantity;
-      total += subtotal;
-
-      message += `${item.name}\n`;
-      message += `Quantity: ${item.quantity}\n`;
-      message += `Price: NGN ${subtotal.toLocaleString("en-NG")}\n\n`;
-    });
-
-    message += "TOTAL: NGN " + total.toLocaleString("en-NG");
-    message += "\n\nPlease assist me with my order.";
-
-    const whatsappURL =
-      "https://wa.me/" + WHATSAPP_NUMBER +
-      "?text=" + encodeURIComponent(message);
-
-    window.open(whatsappURL, "_blank");
+document.querySelectorAll(".nav a").forEach(link => {
+  link.addEventListener("click", () => {
+    document.getElementById("nav").classList.remove("open");
   });
-}
+});
 
-// INITIALIZE CART
-displayCart();
+document.getElementById("year").textContent = new Date().getFullYear();
 
-console.log("Dammy Law Glamour Venture is ready!");
-
-      
+renderProducts();
+renderCart();
