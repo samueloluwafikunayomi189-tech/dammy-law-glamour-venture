@@ -316,3 +316,22 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 renderProducts();
 renderCart();
+document.querySelectorAll(".category-card").forEach(card => {
+  card.addEventListener("click", () => {
+    const category = card.dataset.category;
+
+    selectedCategory = category;
+
+    document.querySelectorAll(".category").forEach(button => {
+      button.classList.toggle(
+        "active",
+        button.dataset.category === category
+      );
+    });
+
+    renderProducts();
+
+    document.getElementById("collections")
+      .scrollIntoView({ behavior: "smooth" });
+  });
+});
