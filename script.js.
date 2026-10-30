@@ -1,7 +1,7 @@
 
 /* DAMMY LAW GLAMOUR VENTURE */
 
-const WHATSAPP_NUMBER = "234XXXXXXXXXX";
+const WHATSAPP_NUMBER = "+234 812 769 8469";
 // Replace with your WhatsApp number, including country code.
 
 const products = [
