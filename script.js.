@@ -5,7 +5,7 @@
 ===================================== */
 
 // YOUR BUSINESS WHATSAPP NUMBER
-const WHATSAPP_NUMBER = "2349064238417";
+const WHATSAPP_NUMBER = "+234 812 769 8469";
 
 // SHOPPING CART
 let cart = JSON.parse(localStorage.getItem("dammyLawCart")) || [];
