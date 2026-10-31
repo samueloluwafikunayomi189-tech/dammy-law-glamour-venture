@@ -38,7 +38,7 @@ function openCart(){document.getElementById("cart-panel").classList.add("open");
 function closeCart(){document.getElementById("cart-panel").classList.remove("open");document.getElementById("cart-overlay").classList.remove("open");document.getElementById("cart-panel").setAttribute("aria-hidden","true");document.body.style.overflow="";}
 function checkout(){
  if(!cart.length){alert("Your shopping bag is empty. Add a product first.");return;}
- if(WHATSAPP_NUMBER==="+234 812 769 8469"){alert("Add your real WhatsApp number in script.js before receiving orders.");return;}
+ if(WHATSAPP_NUMBER==="+2348127698469"){alert("Add your real WhatsApp number in script.js before receiving orders.");return;}
  const lines=cart.map(x=>`${x.name} x${x.qty} — ${money(x.price*x.qty)}`).join("\n");
  const total=cart.reduce((s,x)=>s+x.price*x.qty,0);
  const message=`Hello Dammy Law Glamour Venture! I would like to place an order:\n\n${lines}\n\nTotal: ${money(total)}\n\nPlease let me know the next steps.`;
