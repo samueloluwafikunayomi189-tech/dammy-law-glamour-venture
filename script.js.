@@ -1,8 +1,17 @@
 
-/* DAMMY LAW GLAMOUR VENTURE */
+/* =====================================
+   DAMMY LAW GLAMOUR VENTURE
+   COMPLETE DEPARTMENT SYSTEM
+===================================== */
 
+// Enter your WhatsApp number with country code.
+// Example: 2348012345678
 const WHATSAPP_NUMBER = "+234 812 769 8469";
-// Replace with your WhatsApp number, including country code.
+
+
+/* =====================================
+   PRODUCT DATABASE
+===================================== */
 
 const products = [
   {
@@ -12,7 +21,8 @@ const products = [
     category: "ready-made",
     tags: ["women", "occasion"],
     description: "An elegant look for special occasions.",
-    image: "images/gown.jpg"
+    image: "images/gown.jpg",
+    featured: true
   },
   {
     id: 2,
@@ -21,7 +31,8 @@ const products = [
     category: "custom-made",
     tags: ["women", "occasion"],
     description: "A beautiful design made to your measurements.",
-    image: "images/custom-dress.jpg"
+    image: "images/custom-dress.jpg",
+    featured: true
   },
   {
     id: 3,
@@ -30,7 +41,8 @@ const products = [
     category: "men",
     tags: ["traditional", "ready-made"],
     description: "A refined traditional outfit for men.",
-    image: "images/senator.jpg"
+    image: "images/senator.jpg",
+    featured: true
   },
   {
     id: 4,
@@ -57,7 +69,8 @@ const products = [
     category: "men",
     tags: ["traditional", "ready-made"],
     description: "Modern traditional menswear.",
-    image: "images/kaftan.jpg"
+    image: "images/kaftan.jpg",
+    featured: true
   },
   {
     id: 7,
@@ -75,7 +88,8 @@ const products = [
     category: "accessories",
     tags: [],
     description: "An elegant accessory to complete your look.",
-    image: "images/bag.jpg"
+    image: "images/bag.jpg",
+    featured: true
   },
   {
     id: 9,
@@ -84,7 +98,8 @@ const products = [
     category: "traditional",
     tags: ["women", "ready-made"],
     description: "Beautiful traditional fashion.",
-    image: "images/traditional.jpg"
+    image: "images/traditional.jpg",
+    featured: true
   },
   {
     id: 10,
@@ -93,7 +108,8 @@ const products = [
     category: "custom-made",
     tags: ["men", "traditional"],
     description: "Made to your preferred style and measurements.",
-    image: "images/custom-men.jpg"
+    image: "images/custom-men.jpg",
+    featured: true
   },
   {
     id: 11,
@@ -102,7 +118,8 @@ const products = [
     category: "occasion",
     tags: ["women", "ready-made"],
     description: "A standout look for your next celebration.",
-    image: "images/party-dress.jpg"
+    image: "images/party-dress.jpg",
+    featured: true
   },
   {
     id: 12,
@@ -115,6 +132,72 @@ const products = [
   }
 ];
 
+
+/* =====================================
+   DEPARTMENT CONNECTIONS
+===================================== */
+
+const departments = [
+  {
+    id: "women-products",
+    category: "women",
+    matches: product =>
+      product.tags.includes("women")
+  },
+  {
+    id: "men-products",
+    category: "men",
+    matches: product =>
+      product.tags.includes("men") ||
+      product.category === "men"
+  },
+  {
+    id: "children-products",
+    category: "children",
+    matches: product =>
+      product.category === "children" ||
+      product.tags.includes("children")
+  },
+  {
+    id: "traditional-products",
+    category: "traditional",
+    matches: product =>
+      product.category === "traditional" ||
+      product.tags.includes("traditional")
+  },
+  {
+    id: "casual-office-products",
+    category: "casual-office",
+    matches: product =>
+      product.category === "casual" ||
+      product.category === "office"
+  },
+  {
+    id: "occasion-products",
+    category: "occasion",
+    matches: product =>
+      product.category === "occasion" ||
+      product.tags.includes("occasion")
+  },
+  {
+    id: "accessories-products",
+    category: "accessories",
+    matches: product =>
+      product.category === "accessories"
+  },
+  {
+    id: "our-design-products",
+    category: "our-design",
+    matches: product =>
+      product.featured === true
+  }
+];
+
+
+/* =====================================
+   VARIABLES
+===================================== */
+
 let selectedCategory = "all";
 let cart = [];
 
@@ -122,40 +205,24 @@ const productsGrid = document.getElementById("products-grid");
 const searchInput = document.getElementById("search-input");
 const sortSelect = document.getElementById("sort-select");
 
+
+/* =====================================
+   MONEY FORMAT
+===================================== */
+
 function money(amount) {
   return "₦" + amount.toLocaleString("en-NG");
 }
 
-function renderProducts() {
-  const search = searchInput.value.toLowerCase().trim();
 
-  let filtered = products.filter(product => {
-    const categoryMatch =
-      selectedCategory === "all" ||
-      product.category === selectedCategory ||
-      product.tags.includes(selectedCategory);
+/* =====================================
+   PRODUCT CARD
+===================================== */
 
-    const searchMatch =
-      product.name.toLowerCase().includes(search) ||
-      product.description.toLowerCase().includes(search);
-
-    return categoryMatch && searchMatch;
-  });
-
-  if (sortSelect.value === "low") {
-    filtered.sort((a, b) => a.price - b.price);
-  }
-
-  if (sortSelect.value === "high") {
-    filtered.sort((a, b) => b.price - a.price);
-  }
-
-  if (sortSelect.value === "name") {
-    filtered.sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  productsGrid.innerHTML = filtered.map(product => `
+function createProductCard(product) {
+  return `
     <article class="product-card">
+
       <img
         class="product-image"
         src="${product.image}"
@@ -165,48 +232,202 @@ function renderProducts() {
       >
 
       <div class="product-info">
-        <span class="product-category">${product.category.replace("-", " ")}</span>
+
+        <span class="product-category">
+          ${product.category.replace("-", " ")}
+        </span>
+
         <h3>${product.name}</h3>
-        <p class="product-description">${product.description}</p>
-        <p class="product-price">${money(product.price)}</p>
-        <button class="add-button" onclick="addToCart(${product.id})">
+
+        <p class="product-description">
+          ${product.description}
+        </p>
+
+        <p class="product-price">
+          ${money(product.price)}
+        </p>
+
+        <button
+          class="add-button"
+          onclick="addToCart(${product.id})"
+        >
           ADD TO BAG
         </button>
-      </div>
-    </article>
-  `).join("");
 
-  document.getElementById("empty-message").hidden = filtered.length !== 0;
+      </div>
+
+    </article>
+  `;
 }
 
-document.querySelectorAll(".category").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelector(".category.active").classList.remove("active");
-    button.classList.add("active");
-    selectedCategory = button.dataset.category;
-    renderProducts();
+
+/* =====================================
+   SEARCH AND FILTER
+===================================== */
+
+function matchesSearch(product, search) {
+  return (
+    product.name.toLowerCase().includes(search) ||
+    product.description.toLowerCase().includes(search) ||
+    product.category.toLowerCase().includes(search) ||
+    product.tags.some(tag => tag.includes(search))
+  );
+}
+
+function matchesCategory(product) {
+  if (selectedCategory === "all") return true;
+
+  if (selectedCategory === "women") {
+    return product.tags.includes("women");
+  }
+
+  if (selectedCategory === "men") {
+    return product.tags.includes("men") ||
+      product.category === "men";
+  }
+
+  if (selectedCategory === "casual-office") {
+    return ["casual", "office"].includes(product.category);
+  }
+
+  return (
+    product.category === selectedCategory ||
+    product.tags.includes(selectedCategory)
+  );
+}
+
+
+/* =====================================
+   SORT PRODUCTS
+===================================== */
+
+function sortProducts(list) {
+  const sorted = [...list];
+
+  if (sortSelect.value === "low") {
+    sorted.sort((a, b) => a.price - b.price);
+  }
+
+  if (sortSelect.value === "high") {
+    sorted.sort((a, b) => b.price - a.price);
+  }
+
+  if (sortSelect.value === "name") {
+    sorted.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  return sorted;
+}
+
+
+/* =====================================
+   RENDER ALL DEPARTMENTS
+===================================== */
+
+function renderProducts() {
+  const search = searchInput.value.toLowerCase().trim();
+
+  let totalDisplayed = 0;
+
+  departments.forEach(department => {
+    const container = document.getElementById(department.id);
+
+    if (!container) return;
+
+    let filtered = products.filter(product => {
+      return (
+        department.matches(product) &&
+        matchesCategory(product) &&
+        matchesSearch(product, search)
+      );
+    });
+
+    filtered = sortProducts(filtered);
+
+    totalDisplayed += filtered.length;
+
+    container.innerHTML = filtered
+      .map(createProductCard)
+      .join("");
   });
+
+  const emptyMessage = document.getElementById("empty-message");
+
+  if (emptyMessage) {
+    emptyMessage.hidden = totalDisplayed !== 0;
+  }
+}
+
+
+/* =====================================
+   CATEGORY IMAGE FILTERING
+===================================== */
+
+document.querySelectorAll(".category-card").forEach(card => {
+
+  card.addEventListener("click", () => {
+
+    selectedCategory = card.dataset.category;
+
+    renderProducts();
+
+    const shop = document.getElementById("shop");
+
+    if (shop) {
+      shop.scrollIntoView({ behavior: "smooth" });
+    } else {
+      document.getElementById("collections")
+        .scrollIntoView({ behavior: "smooth" });
+    }
+
+  });
+
 });
 
-searchInput.addEventListener("input", renderProducts);
-sortSelect.addEventListener("change", renderProducts);
+
+/* =====================================
+   SEARCH AND SORT EVENTS
+===================================== */
+
+if (searchInput) {
+  searchInput.addEventListener("input", renderProducts);
+}
+
+if (sortSelect) {
+  sortSelect.addEventListener("change", renderProducts);
+}
+
+
+/* =====================================
+   SHOPPING BAG
+===================================== */
 
 function addToCart(id) {
+
   const product = products.find(item => item.id === id);
+
+  if (!product) return;
+
   const existing = cart.find(item => item.id === id);
 
   if (existing) {
     existing.quantity++;
   } else {
-    cart.push({ ...product, quantity: 1 });
+    cart.push({
+      ...product,
+      quantity: 1
+    });
   }
 
   renderCart();
   openCart();
 }
 
+
 function changeQuantity(id, amount) {
+
   const item = cart.find(product => product.id === id);
+
   if (!item) return;
 
   item.quantity += amount;
@@ -218,120 +439,213 @@ function changeQuantity(id, amount) {
   renderCart();
 }
 
+
 function removeFromCart(id) {
+
   cart = cart.filter(item => item.id !== id);
+
   renderCart();
 }
 
+
+/* =====================================
+   RENDER SHOPPING BAG
+===================================== */
+
 function renderCart() {
+
   const container = document.getElementById("cart-items");
 
+  if (!container) return;
+
   container.innerHTML = cart.length
+
     ? cart.map(item => `
       <div class="cart-item">
+
         <div>
           <h4>${item.name}</h4>
+
           <p>${money(item.price)} each</p>
+
           <div class="quantity-controls">
+
             <button onclick="changeQuantity(${item.id}, -1)">−</button>
+
             <span>${item.quantity}</span>
+
             <button onclick="changeQuantity(${item.id}, 1)">+</button>
-            <button class="remove-button" onclick="removeFromCart(${item.id})">Remove</button>
+
+            <button
+              class="remove-button"
+              onclick="removeFromCart(${item.id})"
+            >
+              Remove
+            </button>
+
           </div>
         </div>
-        <strong>${money(item.price * item.quantity)}</strong>
+
+        <strong>
+          ${money(item.price * item.quantity)}
+        </strong>
+
       </div>
     `).join("")
+
     : "<p style='padding:25px 0;color:#777'>Your shopping bag is empty.</p>";
 
-  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const count = cart.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+
+  const total = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   document.getElementById("cart-count").textContent = count;
+
   document.getElementById("cart-total").textContent = money(total);
 }
 
+
+/* =====================================
+   OPEN AND CLOSE BAG
+===================================== */
+
 function openCart() {
+
   document.getElementById("cart-panel").classList.add("open");
+
   document.getElementById("cart-overlay").classList.add("open");
 }
 
+
 function closeCart() {
+
   document.getElementById("cart-panel").classList.remove("open");
+
   document.getElementById("cart-overlay").classList.remove("open");
 }
 
-document.getElementById("cart-toggle").addEventListener("click", openCart);
-document.getElementById("cart-close").addEventListener("click", closeCart);
-document.getElementById("cart-overlay").addEventListener("click", closeCart);
 
-document.getElementById("checkout-button").addEventListener("click", () => {
-  if (!cart.length) {
-    alert("Your shopping bag is empty.");
-    return;
-  }
+document.getElementById("cart-toggle")
+  .addEventListener("click", openCart);
 
-  if (!/^234\d{10}$/.test(WHATSAPP_NUMBER)) {
-    alert("Please configure your correct WhatsApp number in script.js first.");
-    return;
-  }
+document.getElementById("cart-close")
+  .addEventListener("click", closeCart);
 
-  let message = "Hello Dammy Law Glamour Venture! I want to place an order:\n\n";
+document.getElementById("cart-overlay")
+  .addEventListener("click", closeCart);
 
-  cart.forEach(item => {
-    message += `${item.name} x ${item.quantity} = ${money(item.price * item.quantity)}\n`;
+
+/* =====================================
+   WHATSAPP CHECKOUT
+===================================== */
+
+function validWhatsAppNumber() {
+  return /^234\d{10}$/.test(WHATSAPP_NUMBER);
+}
+
+
+document.getElementById("checkout-button")
+  .addEventListener("click", () => {
+
+    if (!cart.length) {
+      alert("Your shopping bag is empty.");
+      return;
+    }
+
+    if (!validWhatsAppNumber()) {
+      alert("Please enter your WhatsApp number in script.js first.");
+      return;
+    }
+
+    let message =
+      "Hello Dammy Law Glamour Venture! I want to place an order:\n\n";
+
+    cart.forEach(item => {
+      message +=
+        `${item.name} x ${item.quantity} = ${money(item.price * item.quantity)}\n`;
+    });
+
+    const total = cart.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+
+    message +=
+      `\nTotal: ${money(total)}\n\nPlease assist me with my order.`;
+
+    window.open(
+      "https://wa.me/" +
+      WHATSAPP_NUMBER +
+      "?text=" +
+      encodeURIComponent(message),
+      "_blank"
+    );
+
   });
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  message += `\nTotal: ${money(total)}\n\nPlease assist me with my order.`;
 
-  window.open(
-    "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message),
-    "_blank"
-  );
-});
+/* =====================================
+   CONTACT WHATSAPP
+===================================== */
 
-document.getElementById("contact-whatsapp").addEventListener("click", event => {
-  event.preventDefault();
+document.getElementById("contact-whatsapp")
+  .addEventListener("click", event => {
 
-  if (!/^234\d{10}$/.test(WHATSAPP_NUMBER)) {
-    alert("Please configure your WhatsApp number in script.js first.");
-    return;
-  }
+    event.preventDefault();
 
-  window.open("https://wa.me/" + WHATSAPP_NUMBER, "_blank");
-});
+    if (!validWhatsAppNumber()) {
+      alert("Please enter your WhatsApp number in script.js first.");
+      return;
+    }
 
-document.getElementById("menu-toggle").addEventListener("click", () => {
-  document.getElementById("nav").classList.toggle("open");
-});
+    window.open(
+      "https://wa.me/" + WHATSAPP_NUMBER,
+      "_blank"
+    );
+
+  });
+
+
+/* =====================================
+   MOBILE NAVIGATION
+===================================== */
+
+document.getElementById("menu-toggle")
+  .addEventListener("click", () => {
+
+    document.getElementById("nav").classList.toggle("open");
+
+  });
+
 
 document.querySelectorAll(".nav a").forEach(link => {
+
   link.addEventListener("click", () => {
+
     document.getElementById("nav").classList.remove("open");
+
   });
+
 });
 
-document.getElementById("year").textContent = new Date().getFullYear();
+
+/* =====================================
+   FOOTER YEAR
+===================================== */
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+
+/* =====================================
+   START WEBSITE
+===================================== */
 
 renderProducts();
 renderCart();
-document.querySelectorAll(".category-card").forEach(card => {
-  card.addEventListener("click", () => {
-    const category = card.dataset.category;
-
-    selectedCategory = category;
-
-    document.querySelectorAll(".category").forEach(button => {
-      button.classList.toggle(
-        "active",
-        button.dataset.category === category
-      );
-    });
-
-    renderProducts();
-
-    document.getElementById("collections")
-      .scrollIntoView({ behavior: "smooth" });
-  });
-});
