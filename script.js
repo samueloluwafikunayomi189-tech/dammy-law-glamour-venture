@@ -1,6 +1,6 @@
 // Replace this with your real WhatsApp business number in international format.
 // Example format: 2348012345678 (digits only, no + sign or spaces).
-const WHATSAPP_NUMBER ="+234 812 769 8469";
+const WHATSAPP_NUMBER ="+234812769469";
 
 const products = [
  {id:1,name:"Elegant Evening Gown",price:45000,category:"women",tag:"Evening edit",image:"https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=800&q=85"},
