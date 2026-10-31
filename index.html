@@ -117,19 +117,120 @@
 </div>
     
 
-    <div class="shop-tools">
-      <input type="search" id="search-input" placeholder="Search for clothes...">
-      <select id="sort-select" aria-label="Sort products">
-        <option value="default">Sort by</option>
-        <option value="low">Price: Low to High</option>
-        <option value="high">Price: High to Low</option>
-        <option value="name">Name: A to Z</option>
-      </select>
+    
+<section class="shop-section" id="shop">
+
+  <div class="section-heading">
+    <span class="eyebrow">THE DAMMY LAW EXPERIENCE</span>
+    <h2>Explore Our Fashion World</h2>
+    <p>Discover beautiful styles, carefully selected for every occasion.</p>
+  </div>
+
+  <!-- SEARCH AND SORT -->
+  <div class="shop-tools">
+    <input
+      type="search"
+      id="search-input"
+      placeholder="Search for your favourite style..."
+    >
+
+    <select id="sort-select">
+      <option value="default">Sort Products</option>
+      <option value="low">Price: Low to High</option>
+      <option value="high">Price: High to Low</option>
+      <option value="name">Name: A to Z</option>
+    </select>
+  </div>
+
+  <p id="empty-message" hidden>
+    No products found. Please try another search.
+  </p>
+
+  <!-- WOMEN'S COLLECTION -->
+  <section class="department-section" id="womens-collection">
+    <div class="department-heading">
+      <span>01 / WOMEN</span>
+      <h2>Women's Collection</h2>
+      <p>Elegant gowns, dresses, skirts, tops and more.</p>
+    </div>
+    <div class="department-grid" id="women-products"></div>
+  </section>
+
+  <!-- MEN'S COLLECTION -->
+  <section class="department-section" id="mens-collection">
+    <div class="department-heading">
+      <span>02 / MEN</span>
+      <h2>Men's Collection</h2>
+      <p>Senator wear, kaftans, suits, shirts and trousers.</p>
+    </div>
+    <div class="department-grid" id="men-products"></div>
+  </section>
+
+  <!-- CHILDREN'S COLLECTION -->
+  <section class="department-section" id="children-collection">
+    <div class="department-heading">
+      <span>03 / LITTLE STARS</span>
+      <h2>Children's Collection</h2>
+      <p>Beautiful outfits for our little fashion stars.</p>
+    </div>
+    <div class="department-grid" id="children-products"></div>
+  </section>
+
+  <!-- TRADITIONAL COLLECTION -->
+  <section class="department-section" id="traditional-collection">
+    <div class="department-heading">
+      <span>04 / CULTURE</span>
+      <h2>Traditional & Cultural Wear</h2>
+      <p>Celebrate culture through beautiful traditional fashion.</p>
+    </div>
+    <div class="department-grid" id="traditional-products"></div>
+  </section>
+
+  <!-- CASUAL AND OFFICE -->
+  <section class="department-section" id="casual-office">
+    <div class="department-heading">
+      <span>05 / EVERYDAY STYLE</span>
+      <h2>Casual & Office Wear</h2>
+      <p>Look confident, comfortable and stylish every day.</p>
+    </div>
+    <div class="department-grid" id="casual-office-products"></div>
+  </section>
+
+  <!-- OCCASION WEAR -->
+  <section class="department-section" id="occasion-collection">
+    <div class="department-heading">
+      <span>06 / SPECIAL MOMENTS</span>
+      <h2>Occasion Wear</h2>
+      <p>Stand out at parties, celebrations and special events.</p>
+    </div>
+    <div class="department-grid" id="occasion-products"></div>
+  </section>
+
+  <!-- ACCESSORIES -->
+  <section class="department-section" id="accessories-collection">
+    <div class="department-heading">
+      <span>07 / THE FINISHING TOUCH</span>
+      <h2>Accessories</h2>
+      <p>Complete your look with beautiful fashion accessories.</p>
+    </div>
+    <div class="department-grid" id="accessories-products"></div>
+  </section>
+
+  <!-- OUR DESIGN -->
+  <section class="department-section our-design-section" id="our-design">
+    <div class="department-heading">
+      <span>08 / EXCLUSIVE SELECTION</span>
+      <h2>OUR DESIGN</h2>
+      <p>
+        Discover our own creative designs alongside other
+        carefully selected fashion pieces.
+      </p>
     </div>
 
-    <div class="products-grid" id="products-grid"></div>
-    <p class="empty-message" id="empty-message" hidden>No products found in this collection.</p>
+    <div class="department-grid" id="our-design-products"></div>
   </section>
+
+</section>
 
   <section class="custom-banner">
     <div>
