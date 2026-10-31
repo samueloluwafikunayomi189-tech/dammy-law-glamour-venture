@@ -60,3 +60,143 @@ menu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>menu.classL
 document.getElementById("contact-whatsapp").href=`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hello Dammy Law Glamour Venture, I would like to make an enquiry.")}`;
 document.getElementById("year").textContent=new Date().getFullYear();
 renderProducts();renderCart();
+
+
+// ==================================
+// CUSTOM CUSTOMER ORDER SYSTEM
+// ==================================
+
+const customImages = document.getElementById("customImages");
+const customPreview = document.getElementById("customImagePreview");
+const customImageCount = document.getElementById("customImageCount");
+
+let customSelectedImages = [];
+
+if (customImages) {
+
+  customImages.addEventListener("change", function() {
+
+    const newFiles = Array.from(this.files);
+    const combined = [...customSelectedImages, ...newFiles];
+
+    if (combined.length > 5) {
+      alert("You can upload a maximum of 5 pictures.");
+      this.value = "";
+      return;
+    }
+
+    if (combined.some(file => !file.type.startsWith("image/"))) {
+      alert("Please select image files only.");
+      this.value = "";
+      return;
+    }
+
+    if (combined.some(file => file.size > 5 * 1024 * 1024)) {
+      alert("Each image must be 5MB or smaller.");
+      this.value = "";
+      return;
+    }
+
+    customSelectedImages = combined;
+    renderCustomImages();
+    this.value = "";
+
+  });
+
+}
+
+function renderCustomImages() {
+
+  if (!customPreview) return;
+
+  customPreview.innerHTML = "";
+
+  customSelectedImages.forEach((file, index) => {
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+      const item = document.createElement("div");
+      item.className = "custom-preview-item";
+
+      const img = document.createElement("img");
+      img.src = e.target.result;
+      img.alt = "Customer design inspiration";
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "custom-remove-image";
+      remove.textContent = "Remove";
+
+      remove.addEventListener("click", function() {
+        customSelectedImages.splice(index, 1);
+        renderCustomImages();
+      });
+
+      item.appendChild(img);
+      item.appendChild(remove);
+      customPreview.appendChild(item);
+
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+
+  if (customImageCount) {
+    customImageCount.textContent =
+      customSelectedImages.length + " picture(s) selected.";
+  }
+
+}
+
+const customOrderForm = document.getElementById("customOrderForm");
+
+if (customOrderForm) {
+
+  customOrderForm.addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    const product = document.getElementById("customProduct").value.trim();
+    const phone = document.getElementById("customPhone").value.trim();
+    const budget = document.getElementById("customBudget").value;
+    const description = document.getElementById("customDescription").value.trim();
+
+    if (!product || !phone || !budget || !description) {
+      alert("Please complete all required fields.");
+      return;
+    }
+
+    const message =
+`HELLO DAMMY LAW GLAMOUR VENTURE!
+
+I WANT TO PLACE A CUSTOM FASHION ORDER.
+
+Product: ${product}
+
+Customer Phone: ${phone}
+
+My Budget: ₦${Number(budget).toLocaleString("en-NG")}
+
+Design Description:
+${description}
+
+Design Pictures Selected: ${customSelectedImages.length}
+
+I will attach my design inspiration pictures in this WhatsApp chat.
+
+Thank you!`;
+
+    const whatsappURL =
+      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappURL, "_blank");
+
+    alert("WhatsApp is opening. Please attach your selected design pictures before sending.");
+
+  });
+
+}
+
