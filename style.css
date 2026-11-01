@@ -4,40 +4,113 @@
 @media(max-width:370px){.product-photo{height:210px}.department-card{height:215px}.brand-copy strong{letter-spacing:1.4px}.cart-trigger span{font-size:10px}}
 /* FULL-SCREEN WEBSITE WIDTH FIX */
 
+/* =================================
+   DAMMY LAW - FULL WIDTH DESIGN FIX
+================================= */
+
 html,
 body {
   width: 100%;
+  min-width: 320px;
   max-width: 100%;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-body {
-  min-width: 320px;
+/* Remove narrow section restrictions */
+.section-wrap {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
-.container,
-.section-container,
-.hero,
-.hero-section,
-main,
+/* Full-width major sections */
 header,
-footer {
+main,
+footer,
+.hero,
+.shop-section,
+.departments,
+.custom-banner,
+.contact-band {
   width: 100%;
   max-width: 100%;
 }
 
-img {
-  max-width: 100%;
+/* Full-screen hero */
+.hero {
+  width: 100%;
+  min-height: 650px;
 }
 
 .hero-image {
   width: 100%;
   background-size: cover;
   background-position: center;
+}
+
+/* Full-width department cards */
+.department-grid {
+  width: 100%;
+}
+
+/* Product section */
+.products-grid {
+  width: 100%;
+}
+
+/* Custom design section */
+.custom-banner {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+}
+
+/* Desktop spacing */
+@media (min-width: 1200px) {
+  .section-wrap {
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+
+  .product-photo {
+    height: 380px;
+  }
+
+  .department-card {
+    height: 420px;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 620px) {
+  .section-wrap {
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+
+  .hero {
+    min-height: 560px;
+    width: 100%;
+  }
+
+  .custom-banner {
+    grid-template-columns: 1fr;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
