@@ -223,9 +223,8 @@ if (customImages) {
 
   });
      }
-   
-
-    const message =
+            
+   const message =
 `HELLO DAMMY LAW GLAMOUR VENTURE!
 
 I WANT TO PLACE A CUSTOM FASHION ORDER.
@@ -247,14 +246,9 @@ Thank you!`;
 
     const businessNumber = "2348127698469";
 
-    const url = "https://wa.me/" + businessNumber +
-      "?text=" + encodeURIComponent(message);
+const url = "https://api.whatsapp.com/send?phone=" +
+  businessNumber +
+  "&text=" + encodeURIComponent(message);
 
-    window.open(url, "_blank");
-
-    alert("WhatsApp is opening. Please attach your design inspiration pictures before sending.");
-
-  });
-
-}
-
+window.location.href = url;
+   
