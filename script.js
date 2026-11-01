@@ -168,6 +168,62 @@ if (customOrderForm) {
       alert("Please complete all required fields.");
       return;
     }
+   
+const customImages = document.getElementById("customImages");
+const customImagePreview = document.getElementById("customImagePreview");
+const customImageCount = document.getElementById("customImageCount");
+
+let customSelectedImages = [];
+
+if (customImages) {
+  customImages.addEventListener("change", function() {
+
+    const files = Array.from(this.files);
+
+    if (files.length > 5) {
+      alert("You can only upload up to 5 pictures.");
+      this.value = "";
+      customSelectedImages = [];
+      customImagePreview.innerHTML = "";
+      customImageCount.textContent = "No pictures selected.";
+      return;
+    }
+
+    const oversized = files.some(file => file.size > 5 * 1024 * 1024);
+
+    if (oversized) {
+      alert("Each picture must be 5MB or less.");
+      this.value = "";
+      customSelectedImages = [];
+      customImagePreview.innerHTML = "";
+      customImageCount.textContent = "No pictures selected.";
+      return;
+    }
+
+    customSelectedImages = files;
+
+    customImagePreview.innerHTML = "";
+
+    files.forEach(file => {
+      const image = document.createElement("img");
+      const imageURL = URL.createObjectURL(file);
+
+      image.src = imageURL;
+      image.style.width = "90px";
+      image.style.height = "90px";
+      image.style.objectFit = "cover";
+      image.style.margin = "5px";
+      image.style.borderRadius = "8px";
+
+      customImagePreview.appendChild(image);
+    });
+
+    customImageCount.textContent =
+      files.length + " picture(s) selected.";
+
+  });
+     }
+   
 
     const message =
 `HELLO DAMMY LAW GLAMOUR VENTURE!
