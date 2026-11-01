@@ -251,4 +251,8 @@ const url = "https://api.whatsapp.com/send?phone=" +
   "&text=" + encodeURIComponent(message);
 
 window.location.href = url;
+
+  });
+
+}
    
