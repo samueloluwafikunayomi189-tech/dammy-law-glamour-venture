@@ -150,7 +150,7 @@ function renderCustomImages() {
   }
 
 }
-
+ 
 const customOrderForm = document.getElementById("customOrderForm");
 
 if (customOrderForm) {
@@ -189,14 +189,14 @@ I will attach my design inspiration pictures in this WhatsApp chat.
 
 Thank you!`;
 
- const businessNumber = "+234 812 769 8469";
-  const url = "https://wa.me/" + businessNumber +
-    "?text=" + encodeURIComponent(message);
+    const businessNumber = "2348127698469";
 
-  window.open(url, "_blank");
-});
+    const url = "https://wa.me/" + businessNumber +
+      "?text=" + encodeURIComponent(message);
 
-    alert("WhatsApp is opening. Please attach your selected design pictures before sending.");
+    window.open(url, "_blank");
+
+    alert("WhatsApp is opening. Please attach your design inspiration pictures before sending.");
 
   });
 
