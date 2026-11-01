@@ -244,15 +244,12 @@ I will attach my design inspiration pictures in this WhatsApp chat.
 
 Thank you!`;
 
-    const businessNumber = "2348127698469";
+    const CUSTOM_WHATSAPP_NUMBER = "2348127698469";
 
-const url = "https://api.whatsapp.com/send?phone=" +
-  businessNumber +
-  "&text=" + encodeURIComponent(message);
+const whatsappURL =
+    "https://wa.me/" +
+    CUSTOM_WHATSAPP_NUMBER +
+    "?text=" +
+    encodeURIComponent(message);
 
-window.location.href = url;
-
-  });
-
-}
-   
+window.location.href = whatsappURL;
