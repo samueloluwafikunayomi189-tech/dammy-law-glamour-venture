@@ -189,10 +189,12 @@ I will attach my design inspiration pictures in this WhatsApp chat.
 
 Thank you!`;
 
- cnst buinessNumber = "+234 812 769 8469";
-  const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-   
-    window.open(whatsappURL, "_blank");
+ const businessNumber = "+234 812 769 8469";
+  const url = "https://wa.me/" + businessNumber +
+    "?text=" + encodeURIComponent(message);
+
+  window.open(url, "_blank");
+});
 
     alert("WhatsApp is opening. Please attach your selected design pictures before sending.");
 
