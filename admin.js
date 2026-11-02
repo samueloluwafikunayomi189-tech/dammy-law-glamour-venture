@@ -51,6 +51,7 @@ loginForm.addEventListener("submit", async function(event) {
     loginButton.textContent = "SIGNED IN";
 
     console.log("Administrator authenticated:", data.user.email);
+    
 
   } catch (error) {
     loginMessage.textContent =
@@ -59,6 +60,10 @@ loginForm.addEventListener("submit", async function(event) {
     loginMessage.style.color = "#ff7070";
 
     loginButton.disabled = false;
-    loginButton.textContent = "SIGN IN";
+    loginButton.textContent = "SIGNED IN";
+
+window.location.replace("dashboard.html");
+
+console.log("Administrator authenticated:", data.user.email);
   }
 });
