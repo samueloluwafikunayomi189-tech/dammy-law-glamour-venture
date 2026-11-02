@@ -6,8 +6,8 @@ import { createClient } from
 // DAMMY LAW SUPABASE CONNECTION
 // ===================================
 
-const SUPABASE_URL = "PASTE_YOUR_PROJECT_URL_HERE";
-const SUPABASE_PUBLISHABLE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+const SUPABASE_URL = "https://eumwjtfcodcocextnedx.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_OT1em8jqN_65QYjZbnhV0g_zSJOnZyE";
 
 // Enter the exact administrator email you registered.
 const ADMIN_EMAIL = "YOUR_ADMIN_EMAIL";
