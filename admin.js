@@ -48,10 +48,9 @@ loginForm.addEventListener("submit", async function(event) {
 
     loginMessage.style.color = "#65d68a";
 
-    loginButton.textContent = "SIGNED IN";
+        loginButton.textContent = "SIGNED IN";
 
-    console.log("Administrator authenticated:", data.user.email);
-    
+    window.location.replace("dashboard.html");
 
   } catch (error) {
     loginMessage.textContent =
@@ -60,10 +59,6 @@ loginForm.addEventListener("submit", async function(event) {
     loginMessage.style.color = "#ff7070";
 
     loginButton.disabled = false;
-    loginButton.textContent = "SIGNED IN";
-
-window.location.replace("dashboard.html");
-
-console.log("Administrator authenticated:", data.user.email);
+    loginButton.textContent = "SIGN IN";
   }
 });
