@@ -1,24 +1,24 @@
 
 {
-  "id": "./?app=dammy-law-glamour",
+  "id": "/dammy-law-glamour-venture/",
   "name": "Dammy Law Glamour Venture",
   "short_name": "Dammy Law",
-  "description": "Discover elegant fashion, custom designs and ready-to-wear collections at Dammy Law Glamour Venture.",
-  "start_url": "./index.html",
-  "scope": "./",
+  "description": "Discover elegant fashion, custom designs and ready-to-wear collections.",
+  "start_url": "/dammy-law-glamour-venture/index.html",
+  "scope": "/dammy-law-glamour-venture/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#080808",
   "theme_color": "#080808",
   "icons": [
     {
-      "src": "./icon-192.png",
+      "src": "/dammy-law-glamour-venture/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./icon-512.png",
+      "src": "/dammy-law-glamour-venture/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
