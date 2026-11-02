@@ -10,7 +10,7 @@ const SUPABASE_URL = "https://eumwjtfcodcocextnedx.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_OT1em8jqN_65QYjZbnhV0g_zSJOnZyE";
 
 // Enter the exact administrator email you registered.
-const ADMIN_EMAIL = "YOUR_ADMIN_EMAIL";
+const ADMIN_EMAIL = "adebayokabirha@gmail.com";
 
 const supabase = createClient(
   SUPABASE_URL,
