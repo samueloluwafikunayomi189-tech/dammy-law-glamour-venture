@@ -364,3 +364,155 @@ renderCart();
 
 loadPublishedProducts();
                           
+// =====================================
+// DAMMY LAW CUSTOM ORDER - WHATSAPP
+// =====================================
+
+const customOrderForm = document.getElementById("custom-order-form");
+const customImageInput = document.getElementById("custom-design-image");
+const customImagePreview = document.getElementById("custom-image-preview");
+const customFileName = document.getElementById("custom-file-name");
+const customOrderStatus = document.getElementById("custom-order-status");
+
+// Image upload and preview
+if (customImageInput) {
+  customImageInput.addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (!file) {
+      customImagePreview.style.display = "none";
+      customImagePreview.removeAttribute("src");
+      customFileName.textContent = "No picture selected";
+      return;
+    }
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      alert("Please upload a JPG, PNG or WEBP image.");
+
+      this.value = "";
+      customImagePreview.style.display = "none";
+      customFileName.textContent = "No picture selected";
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Your picture must not exceed 5MB.");
+
+      this.value = "";
+      customImagePreview.style.display = "none";
+      customFileName.textContent = "No picture selected";
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      customImagePreview.src = event.target.result;
+      customImagePreview.style.display = "block";
+      customFileName.textContent = file.name;
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+
+// Custom order form submission
+if (customOrderForm) {
+  customOrderForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const customerName = document
+      .getElementById("custom-customer-name")
+      .value.trim();
+
+    const customerPhone = document
+      .getElementById("custom-customer-phone")
+      .value.trim();
+
+    const designName = document
+      .getElementById("custom-design-name")
+      .value.trim();
+
+    const budget = document
+      .getElementById("custom-budget")
+      .value;
+
+    const imageFile = customImageInput.files[0];
+
+    // Check required details
+    if (!customerName || !customerPhone || !designName || !budget || !imageFile) {
+      alert("Please complete all fields and upload your design picture.");
+      return;
+    }
+
+    // Check image type and size again
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
+
+    if (!allowedTypes.includes(imageFile.type)) {
+      alert("Please upload a valid JPG, PNG or WEBP picture.");
+      return;
+    }
+
+    if (imageFile.size > 5 * 1024 * 1024) {
+      alert("Your picture must not exceed 5MB.");
+      return;
+    }
+
+    if (!Number.isFinite(Number(budget)) || Number(budget) <= 0) {
+      alert("Please enter a valid budget.");
+      return;
+    }
+
+    // Format customer budget
+    const formattedBudget = Number(budget).toLocaleString("en-NG");
+
+    // Prepare WhatsApp message
+    const message =
+      `Hello Dammy Law Glamour Venture! I would like to make a custom order.
+
+CUSTOM ORDER DETAILS
+
+Full Name: ${customerName}
+
+Phone Number: ${customerPhone}
+
+Design Name: ${designName}
+
+My Budget: ₦${formattedBudget}
+
+I have selected my design inspiration picture. I will attach the picture here before sending.
+
+Please let me know the next steps. Thank you!`;
+
+    // Use the existing WhatsApp number
+    const whatsappURL =
+      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+    if (customOrderStatus) {
+      customOrderStatus.textContent =
+        "WhatsApp is opening. Please attach your selected design picture before sending.";
+    }
+
+    // Open WhatsApp
+    const whatsappWindow = window.open(
+      whatsappURL,
+      "_blank"
+    );
+
+    // Fallback if the browser blocks the new window
+    if (!whatsappWindow) {
+      window.location.href = whatsappURL;
+    }
+  });
+}
