@@ -173,6 +173,128 @@
 </section>
       <p class="eyebrow">WE WOULD LOVE TO HEAR FROM YOU</p><h2>Let's find your <em>next look.</em></h2>
       <p>Questions, custom requests or ready to order? Send us a message.</p><a class="gold-button" id="contact-whatsapp" href="#" target="_blank" rel="noopener">CHAT WITH US ON WHATSAPP <span>→</span></a></section>
+
+<!-- CUSTOM ORDER SECTION -->
+<section class="custom-order-section" id="custom-order">
+
+  <div class="custom-order-container">
+
+    <div class="custom-order-heading">
+      <p class="eyebrow">MADE JUST FOR YOU</p>
+      <h2>Your Style.<br><em>Your Choice.</em></h2>
+      <p>
+        Have a special design in mind? Tell us what you want,
+        share your budget and upload your inspiration picture.
+        Let's bring your dream outfit to life.
+      </p>
+    </div>
+
+    <div class="custom-order-divider"></div>
+
+    <form class="custom-order-form" id="custom-order-form">
+
+      <div class="form-group">
+        <label for="custom-customer-name">FULL NAME</label>
+        <input
+          type="text"
+          id="custom-customer-name"
+          name="customerName"
+          placeholder="Enter your full name"
+          maxlength="100"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="custom-customer-phone">PHONE NUMBER</label>
+        <input
+          type="tel"
+          id="custom-customer-phone"
+          name="customerPhone"
+          placeholder="Enter your phone number"
+          maxlength="20"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="custom-design-name">DESIGN NAME</label>
+        <input
+          type="text"
+          id="custom-design-name"
+          name="designName"
+          placeholder="Describe or name your desired outfit"
+          maxlength="150"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="custom-budget">YOUR BUDGET (₦)</label>
+        <input
+          type="number"
+          id="custom-budget"
+          name="budget"
+          placeholder="Enter your budget in Naira"
+          min="1"
+          step="1"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label>DESIGN INSPIRATION PICTURE</label>
+
+        <label class="custom-upload-box" for="custom-design-image">
+
+          <span class="custom-upload-icon">✧</span>
+
+          <strong>Upload your design picture</strong>
+
+          <small>JPG, PNG or WEBP · Maximum 5MB</small>
+
+          <input
+            type="file"
+            id="custom-design-image"
+            name="designImage"
+            accept="image/jpeg,image/png,image/webp"
+            required
+          >
+
+          <img
+            id="custom-image-preview"
+            class="custom-image-preview"
+            alt="Your selected design preview"
+          >
+
+          <span id="custom-file-name" class="custom-file-name">
+            No picture selected
+          </span>
+
+        </label>
+      </div>
+
+      <button class="custom-submit-button" type="submit">
+        SUBMIT CUSTOM ORDER VIA WHATSAPP →
+      </button>
+
+      <p
+        id="custom-order-status"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+    </form>
+
+    <div class="custom-order-footer">
+      MADE WITH <span>✦</span> DAMMY LAW GLAMOUR VENTURE
+    </div>
+
+  </div>
+
+</section>
+<!-- END CUSTOM ORDER SECTION -->
+    
   </main>
 
   <footer class="footer"><a class="brand footer-brand" href="#home"><span class="brand-mark">DL</span><span class="brand-copy"><strong>DAMMY LAW</strong><small>GLAMOUR VENTURE</small></span></a>
